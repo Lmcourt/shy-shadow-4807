@@ -1,10 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Garden do
-  describe 'relationships' do
-    it { should have_many(:plots) }
-  end
-
+RSpec.describe 'garden show page' do
   before :each do
     @garden1 = Garden.create!(name: 'Turing Community Garden', organic: true)
     @garden2 = Garden.create!(name: 'Public Library Garden', organic: true)
@@ -29,7 +25,10 @@ RSpec.describe Garden do
     PlantPlot.create!(plot: @plot3, plant: @plant2)
   end
 
-  it 'has plants that harvest in less than 100 days' do
-    expect(@garden1.garden_plants).to eq([@plant1, @plant2])
+  it 'shows a list of plants' do
+    visit garden_path(@garden1)
+
+    expect(page).to have_content(@plant1.name)
+    expect(page).to have_content(@plant2.name)
   end
 end
